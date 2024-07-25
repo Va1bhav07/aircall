@@ -19,7 +19,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 
 const primaryTxtColor = grey[700];
 const secondaryTxtColor = grey[500];
-export const CallIList = ({ callsData = {} }) => {
+
+export const CallIList = ({ callsData = {}, callDetailsHandler }) => {
   const callsDates = Object.keys(callsData);
 
   if (!callsDates.length) {
@@ -29,6 +30,10 @@ export const CallIList = ({ callsData = {} }) => {
       </Box>
     );
   }
+
+  const handleCallDetails = (id) => {
+    callDetailsHandler?.(id);
+  };
 
   return (
     <Box>
@@ -50,7 +55,11 @@ export const CallIList = ({ callsData = {} }) => {
               const numOfTimes = calls?.length;
 
               return (
-                <ListItemButton key={call.id} px={2}>
+                <ListItemButton
+                  key={call.id}
+                  px={2}
+                  onClick={() => handleCallDetails(call.id)}
+                >
                   <CallItemCard>
                     {call.call_type === "answered" ? (
                       call.direction === "inbound" ? (

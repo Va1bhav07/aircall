@@ -13,8 +13,8 @@ import { formatDate } from "./utilities/formatDate";
 const App = () => {
   const [callLogsState, setCallLogs] = useState({
     allCalls: {},
-    archivedCalss: {},
-    unArchivedCalss: {},
+    archivedCalls: {},
+    unArchivedCalls: {},
   });
 
   useEffect(() => {
@@ -53,12 +53,7 @@ const App = () => {
           unArchivedCalls[date][call.from].push(call);
         }
       });
-      // console.log(
-      //   "groupedCalls :>> ",
-      //   archivedCalls,
-      //   unArchivedCalls,
-      //   groupAllCalls
-      // );
+
       setCallLogs({
         allCalls,
         archivedCalls,
@@ -70,7 +65,6 @@ const App = () => {
   return (
     <CallLogsProvider value={callLogsState}>
       <ThemeProvider theme={theme}>
-        {/* <div className="container"> */}
         <Container
           disableGutters
           sx={{
@@ -84,10 +78,8 @@ const App = () => {
         >
           <Layout>
             <CallActivityLog />
-            {/* <div className="container-view">Some activities should be here</div> */}
           </Layout>
         </Container>
-        {/* </div> */}
       </ThemeProvider>
     </CallLogsProvider>
   );
@@ -96,7 +88,7 @@ const App = () => {
 const root = createRoot(document.getElementById("app"));
 root.render(
   <React.StrictMode>
-    <App tab="home" />
+    <App />
   </React.StrictMode>
 );
 export default App;

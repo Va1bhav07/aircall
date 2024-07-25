@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Stack from "@mui/material/Stack";
 
-import { UnArchivedCalls } from "./UnArchivedCalls";
+import { ArchiveCallBtn } from "../ArchiveCallBtn";
 import { CallIList } from "../CallIList";
 
 import { CallLogsContext } from "../../../contexts/CallLogsContext";
@@ -12,7 +12,7 @@ export const ArchivedCalls = () => {
   console.log("ArchivedCalls :>> ", CallLogs);
   return (
     <Stack>
-      <UnArchivedCalls />
+      <ArchiveCallBtn isArchive={false} />
       <CallIList callsData={totalCalls} />
     </Stack>
   );

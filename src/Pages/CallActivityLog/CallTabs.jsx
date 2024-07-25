@@ -6,7 +6,6 @@ import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import { AllCalls } from "./AllCalls";
 import { Inbox } from "./Inbox";
 import { ArchivedCalls } from "./ArchivedCalls";
-import { grey } from "@mui/material/colors";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -36,7 +35,7 @@ function a11yProps(index) {
 }
 
 export const CallTabs = () => {
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -44,11 +43,11 @@ export const CallTabs = () => {
 
   return (
     <Box
-      sx={
-        {
-          // transform: "translate(0px, -54px)",
-        }
-      }
+    // sx={
+    //   {
+    //     // transform: "translate(0px, -54px)",
+    //   }
+    // }
     >
       <Box>
         <Tabs
@@ -62,17 +61,13 @@ export const CallTabs = () => {
             },
           }}
           sx={{
-            "& .Mui-selected": {
-              // fontWeight: "bold",
-              // color: grey[600] + "!important",
-            },
+            "& .Mui-selected": {},
             "& .MuiTabs-flexContainer": {
               justifyContent: "end",
               mt: "3px",
               mr: "3px",
             },
             "& button": {
-              // margin: "0 5px",
               padding: "16px",
               minWidth: "80px",
               backgroundColor: "airCall.greyPrime",

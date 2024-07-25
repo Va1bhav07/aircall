@@ -1,20 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Stack from "@mui/material/Stack";
 
-import { ArchiveCalls } from "./ArchiveCalls";
+import { ArchiveCallBtn } from "../ArchiveCallBtn";
 import { CallIList } from "../CallIList";
 
 import { CallLogsContext } from "../../../contexts/CallLogsContext";
+import { CallDetails } from "../../CallDetails";
 
 export const Inbox = () => {
   const CallLogs = useContext(CallLogsContext);
   const totalCalls = CallLogs.unArchivedCalls;
+  const [callIdState, setCallId] = useState("");
+  const calldHandler = (callId) => {
+    setCallId(callId);
+  };
   console.log("Inbox :>> ", CallLogs);
+
+  const backBtnHandler = () => {
+    setCallId("");
+  };
+
+  if (callIdState) {
+    return <CallDetails callId={callIdState} onBackBtn={backBtnHandler} />;
+  }
 
   return (
     <Stack>
-      <ArchiveCalls />
-      <CallIList callsData={totalCalls} />
+      <ArchiveCallBtn isArchive={true} />
+      <CallIList callsData={totalCalls} callDetailsHandler={calldHandler} />
     </Stack>
   );
 };
