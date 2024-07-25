@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Stack from "@mui/material/Stack";
 
 import Typography from "@mui/material/Typography";
 import CircleIcon from "@mui/icons-material/FiberManualRecord";
 
 import { grey } from "@mui/material/colors";
+import { CallLogsContext } from "../../contexts/CallLogsContext";
 
 export const Header = () => {
+  const CallLogs = useContext(CallLogsContext);
+  const totalCalls = CallLogs.allCalls?.length;
   return (
     <Stack
       direction="row"
@@ -30,7 +33,7 @@ export const Header = () => {
         fontWeight="bold"
         color={`${grey[700]}`}
       >
-        (12) Aircall Phone
+        {totalCalls ? `(${totalCalls})` : ""} Aircall Phone
       </Typography>
     </Stack>
   );

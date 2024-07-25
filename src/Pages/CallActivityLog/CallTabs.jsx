@@ -3,21 +3,28 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
-import { AllCals } from "./AllCalls";
+import { AllCalls } from "./AllCalls";
+import { Inbox } from "./Inbox";
+import { ArchivedCalls } from "./ArchivedCalls";
+import { grey } from "@mui/material/colors";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      sx={{
+        maxHeight: "528px",
+        overflow: "auto",
+      }}
       {...other}
     >
       {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
-    </div>
+    </Box>
   );
 }
 
@@ -37,9 +44,11 @@ export const CallTabs = () => {
 
   return (
     <Box
-      sx={{
-        transform: "translate(0px, -54px)",
-      }}
+      sx={
+        {
+          // transform: "translate(0px, -54px)",
+        }
+      }
     >
       <Box>
         <Tabs
@@ -53,37 +62,44 @@ export const CallTabs = () => {
             },
           }}
           sx={{
+            "& .Mui-selected": {
+              // fontWeight: "bold",
+              // color: grey[600] + "!important",
+            },
             "& .MuiTabs-flexContainer": {
               justifyContent: "end",
+              mt: "3px",
+              mr: "3px",
             },
             "& button": {
-              margin: "0 0 5px 5px",
-              padding: 0,
+              // margin: "0 5px",
+              padding: "16px",
               minWidth: "80px",
+              backgroundColor: "airCall.greyPrime",
             },
           }}
         >
           <Tab
             label="inbox"
-            sx={{ textTransform: "capitalize" }}
+            sx={{ textTransform: "capitalize", fontWeight: "bold" }}
             {...a11yProps(0)}
           />
           <Tab
             label="All calls"
-            sx={{ textTransform: "capitalize" }}
+            sx={{ textTransform: "capitalize", fontWeight: "bold" }}
             {...a11yProps(1)}
           />
           <Tab icon={<TuneOutlinedIcon />} {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        Item One
+        <Inbox />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <AllCals />
+        <AllCalls />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        <ArchivedCalls />
       </CustomTabPanel>
     </Box>
   );

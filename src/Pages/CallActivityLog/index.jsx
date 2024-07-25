@@ -9,15 +9,15 @@ import { grey } from "@mui/material/colors";
 
 export const CallActivityLog = () => {
   return (
-    <>
+    <Box position="relative">
       <Stack
         direction="row"
         // position="fixed"
         p={2}
-        // py={1}
+        pb={1.6}
         borderBottom={`1px solid ${grey[200]}`}
         backgroundColor="common.white"
-        sx={{ height: "30px" }}
+        sx={{ height: "30px", position: "absolute", left: 0, right: 0 }}
       >
         <svg
           // width="486px"
@@ -79,6 +79,6 @@ export const CallActivityLog = () => {
         </svg>
       </Stack>
       <CallTabs />
-    </>
+    </Box>
   );
 };
