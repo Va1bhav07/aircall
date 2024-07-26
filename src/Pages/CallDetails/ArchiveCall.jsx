@@ -1,5 +1,4 @@
 import React from "react";
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
 import Box from "@mui/material/Box";
@@ -9,7 +8,7 @@ import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
 import { grey } from "@mui/material/colors";
 const primaryTxtColor = grey[700];
 
-export const ArchiveCall = ({ archiveHandler }) => {
+export const ArchiveCall = ({ archiveHandler, isArchived }) => {
   return (
     <Box px={2}>
       <Typography
@@ -31,7 +30,7 @@ export const ArchiveCall = ({ archiveHandler }) => {
         onClick={archiveHandler}
       >
         <Typography variant="subtitle2" color={primaryTxtColor} ml={1}>
-          Archive number
+          {`${isArchived ? "Unarchive number" : "Archive number"}`}
         </Typography>
       </Button>
     </Box>

@@ -11,7 +11,7 @@ export const Inbox = () => {
   const CallLogs = useContext(CallLogsContext);
   const totalCalls = CallLogs.unArchivedCalls;
   const [callIdState, setCallId] = useState("");
-  const calldHandler = (callId) => {
+  const callDetailsHandler = (callId) => {
     setCallId(callId);
   };
   console.log("Inbox :>> ", CallLogs);
@@ -27,7 +27,10 @@ export const Inbox = () => {
   return (
     <Stack>
       <ArchiveCallBtn isArchive={true} />
-      <CallIList callsData={totalCalls} callDetailsHandler={calldHandler} />
+      <CallIList
+        callsData={totalCalls}
+        callDetailsHandler={callDetailsHandler}
+      />
     </Stack>
   );
 };

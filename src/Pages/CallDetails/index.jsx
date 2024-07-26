@@ -42,17 +42,13 @@ export const CallDetails = ({ callId, onBackBtn }) => {
     const resp = await apiAxios.patch(api, {
       is_archived: !is_archived,
     });
-    console.log("resp :>> ", resp);
     if (resp === "Call had been updated.") {
-      console.log("test :>> ");
       <Snackbar
         open={true}
         autoHideDuration={3000}
         message={`Number is ${!is_archived ? "archived" : "unarchived"}`}
       />;
     }
-
-    console.log("resp :>> ", resp);
   };
 
   return (
@@ -72,7 +68,10 @@ export const CallDetails = ({ callId, onBackBtn }) => {
           <Box py={3}>
             <Divider />
           </Box>
-          <ArchiveCall archiveHandler={archiveHandler} />
+          <ArchiveCall
+            archiveHandler={archiveHandler}
+            isArchived={is_archived}
+          />
         </Box>
       </Stack>
     </Box>
