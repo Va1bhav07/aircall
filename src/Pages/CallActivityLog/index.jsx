@@ -7,7 +7,7 @@ import { CallTabs } from "./CallTabs";
 
 import { grey } from "@mui/material/colors";
 
-export const CallActivityLog = () => {
+const CallActivityLog = () => {
   return (
     <Box position="relative">
       <Stack
@@ -82,3 +82,5 @@ export const CallActivityLog = () => {
     </Box>
   );
 };
+
+export default CallActivityLog;

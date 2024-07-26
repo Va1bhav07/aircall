@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { CallLogsProvider } from "./contexts/CallLogsContext";
 import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./assets/theme";
 import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import Layout from "./Layout";
-import { CallActivityLog } from "./Pages/CallActivityLog";
 import { apiAxios } from "./utilities/axios";
 import { formatDate } from "./utilities/formatDate";
+
+const CallActivityLog = lazy(() => import("./Pages/CallActivityLog"));
 
 const App = () => {
   const [callLogsState, setCallLogs] = useState({
@@ -77,7 +80,15 @@ const App = () => {
           }}
         >
           <Layout>
-            <CallActivityLog />
+            <Suspense
+              fallback={
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+                </Box>
+              }
+            >
+              <CallActivityLog />
+            </Suspense>
           </Layout>
         </Container>
       </ThemeProvider>
