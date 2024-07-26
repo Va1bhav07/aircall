@@ -17,7 +17,6 @@ export const Inbox = () => {
   const callDetailsHandler = (callId) => {
     setCallId(callId);
   };
-  console.log("Inbox :>> ", callLogs);
 
   const backBtnHandler = () => {
     setCallId("");

@@ -6,9 +6,6 @@ import { CallLogsContext } from "../../../contexts/CallLogsContext";
 export const AllCalls = () => {
   const { callLogsState: callLogs } = useContext(CallLogsContext);
   const totalCalls = callLogs.allCalls;
-
-  console.log("AllCalls :>> ", totalCalls);
-
   return (
     <Stack>
       <CallIList callsData={totalCalls} />

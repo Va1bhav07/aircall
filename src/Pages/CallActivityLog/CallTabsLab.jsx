@@ -12,7 +12,6 @@ export function CallTabs() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  // console.log("object :>> ", object);
   return (
     <Box
       sx={{

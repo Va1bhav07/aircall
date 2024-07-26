@@ -24,7 +24,6 @@ export const ArchiveCallBtn = ({ isArchive = false, callIds }) => {
       });
 
       const responses = await Promise.all(promises);
-      console.log("All calls archived:", responses);
       if (responses.length) {
         setUpdate((prev) => !prev);
       }

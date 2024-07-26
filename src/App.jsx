@@ -22,21 +22,11 @@ const CallActivityLog = lazy(() => import("./Pages/CallActivityLog"));
 const App = () => {
   const [appState, dispatch] = useReducer(appReducer, initialState);
   const [isUpdate, setUpdate] = useState(false);
-  // const [callLogsState, setCallLogs] = useState({
-  //   allCalls: {},
-  //   archivedCalls: {},
-  //   unArchivedCalls: {},
-  //   archivedCallsIdData: {},
-  //   unArchivedCallsIdData: {},
-  //   isLoading: false,
-  // });
 
   useEffect(() => {
     (async () => {
       const api = "/activities";
-      // setCallLogs((prev) => ({ ...prev, isLoading: true }));
       dispatch({ type: REQUEST_CALL_DATA });
-      console.log("test :>> ");
       try {
         const resp = await apiAxios.get(api);
         const allCallsResp = resp;
@@ -87,18 +77,9 @@ const App = () => {
             isLoading: false,
           },
         });
-        // setCallLogs({
-        //   allCalls,
-        //   archivedCalls,
-        //   unArchivedCalls,
-        //   archivedCallsIdData,
-        //   unArchivedCallsIdData,
-        //   isLoading: false,
-        // });
       } catch (error) {
         console.error("Error fetching data:", error);
         dispatch({ type: SET_CALL_DATA_FAILED });
-        // setCallLogs((prev) => ({ ...prev, isLoading: false }));
       }
     })();
   }, [isUpdate]);
