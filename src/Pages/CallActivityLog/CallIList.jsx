@@ -27,7 +27,7 @@ export const CallIList = ({
 }) => {
   const callsDates = Object.keys(callsData);
 
-  if (true || isLoading) {
+  if (isLoading) {
     return (
       <Box mt={3} sx={{ display: "flex", justifyContent: "center" }}>
         <CircularProgress />
