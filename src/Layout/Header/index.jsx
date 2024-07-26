@@ -8,8 +8,9 @@ import { grey } from "@mui/material/colors";
 import { CallLogsContext } from "../../contexts/CallLogsContext";
 
 export const Header = () => {
-  const CallLogs = useContext(CallLogsContext);
-  const totalCalls = CallLogs.allCalls?.length;
+  const { callLogsState: callLogs } = useContext(CallLogsContext);
+  const totalCalls =
+    callLogs.archivedCallsData?.length + callLogs.unArchivedCallsData?.length;
   return (
     <Stack
       direction="row"

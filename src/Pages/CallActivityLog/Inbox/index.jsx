@@ -8,16 +8,20 @@ import { CallLogsContext } from "../../../contexts/CallLogsContext";
 import { CallDetails } from "../../CallDetails";
 
 export const Inbox = () => {
-  const CallLogs = useContext(CallLogsContext);
-  const totalCalls = CallLogs.unArchivedCalls;
+  const { callLogsState: callLogs, setUpdate } = useContext(CallLogsContext);
+  const totalCalls = callLogs.unArchivedCalls;
+  const isLoading = callLogs.isLoading;
+  const unArchivedCallsData = Object.keys(callLogs.unArchivedCallsIdData);
+
   const [callIdState, setCallId] = useState("");
   const callDetailsHandler = (callId) => {
     setCallId(callId);
   };
-  console.log("Inbox :>> ", CallLogs);
+  console.log("Inbox :>> ", callLogs);
 
   const backBtnHandler = () => {
     setCallId("");
+    setUpdate((prev) => !prev);
   };
 
   if (callIdState) {
@@ -26,10 +30,11 @@ export const Inbox = () => {
 
   return (
     <Stack>
-      <ArchiveCallBtn isArchive={true} />
+      <ArchiveCallBtn isArchive={false} callIds={unArchivedCallsData} />
       <CallIList
         callsData={totalCalls}
         callDetailsHandler={callDetailsHandler}
+        isLoading={isLoading}
       />
     </Stack>
   );

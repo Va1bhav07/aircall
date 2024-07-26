@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -20,13 +20,25 @@ import ListItemButton from "@mui/material/ListItemButton";
 const primaryTxtColor = grey[700];
 const secondaryTxtColor = grey[500];
 
-export const CallIList = ({ callsData = {}, callDetailsHandler }) => {
+export const CallIList = ({
+  callsData = {},
+  callDetailsHandler,
+  isLoading,
+}) => {
   const callsDates = Object.keys(callsData);
 
-  if (!callsDates.length) {
+  if (isLoading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!callsDates.length) {
+    return (
+      <Box mt={2} sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography variant="h5"> No Call Log Found </Typography>
       </Box>
     );
   }

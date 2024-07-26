@@ -1,23 +1,46 @@
-import React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
 import UnarchiveOutlinedIcon from "@mui/icons-material/UnarchiveOutlined";
+import { apiAxios } from "../../../utilities/axios";
+import { CallLogsContext } from "../../../contexts/CallLogsContext";
 
 import { grey } from "@mui/material/colors";
 
-export const ArchiveCallBtn = ({ isArchive = false }) => {
+export const ArchiveCallBtn = ({ isArchive = false, callIds }) => {
+  const { setUpdate } = useContext(CallLogsContext);
   const primaryTxtColor = grey[700];
+
+  const handleAllCallArchive = async () => {
+    try {
+      const promises = callIds.map((callId) => {
+        const api = `/activities/${callId}`;
+        return apiAxios.patch(api, {
+          is_archived: !isArchive,
+        });
+      });
+
+      const responses = await Promise.all(promises);
+      console.log("All calls archived:", responses);
+      if (responses.length) {
+        setUpdate((prev) => !prev);
+      }
+    } catch (error) {
+      console.error("Error archiving calls:", error);
+    }
+  };
 
   return (
     <Box px={2}>
       <Button
         variant="outlined"
         startIcon={
-          isArchive ? <ArchiveOutlinedIcon /> : <UnarchiveOutlinedIcon />
+          isArchive ? <UnarchiveOutlinedIcon /> : <ArchiveOutlinedIcon />
         }
+        onClick={handleAllCallArchive}
         sx={{
           color: primaryTxtColor,
           backgroundColor: "common.white",
@@ -40,7 +63,7 @@ export const ArchiveCallBtn = ({ isArchive = false }) => {
           fontSize="14px"
           color={primaryTxtColor}
         >
-          {`${isArchive ? "Archive" : "Unarchive"}  all calls`}
+          {`${isArchive ? "Unarchive" : "Archive"}  all calls`}
         </Typography>
       </Button>
     </Box>

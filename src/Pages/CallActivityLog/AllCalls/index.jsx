@@ -4,7 +4,7 @@ import { CallIList } from "../CallIList";
 import { CallLogsContext } from "../../../contexts/CallLogsContext";
 
 export const AllCalls = () => {
-  const callLogs = useContext(CallLogsContext);
+  const { callLogsState: callLogs } = useContext(CallLogsContext);
   const totalCalls = callLogs.allCalls;
 
   console.log("AllCalls :>> ", totalCalls);

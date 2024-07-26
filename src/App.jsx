@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useEffect, useReducer, lazy, Suspense, useState } from "react";
 import { CallLogsProvider } from "./contexts/CallLogsContext";
 import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "@mui/material/styles";
@@ -10,63 +10,101 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Layout from "./Layout";
 import { apiAxios } from "./utilities/axios";
 import { formatDate } from "./utilities/formatDate";
+import { initialState, appReducer } from "./reducer";
+import {
+  REQUEST_CALL_DATA,
+  SET_CALL_DATA,
+  SET_CALL_DATA_FAILED,
+} from "./const";
 
 const CallActivityLog = lazy(() => import("./Pages/CallActivityLog"));
 
 const App = () => {
-  const [callLogsState, setCallLogs] = useState({
-    allCalls: {},
-    archivedCalls: {},
-    unArchivedCalls: {},
-  });
+  const [appState, dispatch] = useReducer(appReducer, initialState);
+  const [isUpdate, setUpdate] = useState(false);
+  // const [callLogsState, setCallLogs] = useState({
+  //   allCalls: {},
+  //   archivedCalls: {},
+  //   unArchivedCalls: {},
+  //   archivedCallsIdData: {},
+  //   unArchivedCallsIdData: {},
+  //   isLoading: false,
+  // });
 
   useEffect(() => {
     (async () => {
       const api = "/activities";
-      const resp = await apiAxios.get(api);
-      const allCallsResp = resp;
-      const allCalls = {};
-      const archivedCalls = {};
-      const unArchivedCalls = {};
+      // setCallLogs((prev) => ({ ...prev, isLoading: true }));
+      dispatch({ type: REQUEST_CALL_DATA });
+      console.log("test :>> ");
+      try {
+        const resp = await apiAxios.get(api);
+        const allCallsResp = resp;
+        const allCalls = {};
+        const archivedCalls = {};
+        const unArchivedCalls = {};
+        const archivedCallsIdData = {};
+        const unArchivedCallsIdData = {};
 
-      allCallsResp.forEach((call) => {
-        const date = formatDate(call.created_at);
-        if (!allCalls[date]) {
-          allCalls[date] = {};
-        }
-        if (!allCalls[date][call.from]) {
-          allCalls[date][call.from] = [];
-        }
-        allCalls[date][call.from].push(call);
-        if (call.is_archived) {
-          if (!archivedCalls[date]) {
-            archivedCalls[date] = {};
+        allCallsResp.forEach((call) => {
+          const date = formatDate(call.created_at);
+          if (!allCalls[date]) {
+            allCalls[date] = {};
           }
-          if (!archivedCalls[date][call.from]) {
-            archivedCalls[date][call.from] = [];
+          if (!allCalls[date][call.from]) {
+            allCalls[date][call.from] = [];
           }
-          archivedCalls[date][call.from].push(call);
-        } else {
-          if (!unArchivedCalls[date]) {
-            unArchivedCalls[date] = {};
-          }
-          if (!unArchivedCalls[date][call.from]) {
-            unArchivedCalls[date][call.from] = [];
-          }
-          unArchivedCalls[date][call.from].push(call);
-        }
-      });
+          allCalls[date][call.from].push(call);
+          if (call.is_archived) {
+            archivedCallsIdData[call.id] = call;
+            if (!archivedCalls[date]) {
+              archivedCalls[date] = {};
+            }
+            if (!archivedCalls[date][call.from]) {
+              archivedCalls[date][call.from] = [];
+            }
+            archivedCalls[date][call.from].push(call);
+          } else {
+            unArchivedCallsIdData[call.id] = call;
 
-      setCallLogs({
-        allCalls,
-        archivedCalls,
-        unArchivedCalls,
-      });
+            if (!unArchivedCalls[date]) {
+              unArchivedCalls[date] = {};
+            }
+            if (!unArchivedCalls[date][call.from]) {
+              unArchivedCalls[date][call.from] = [];
+            }
+            unArchivedCalls[date][call.from].push(call);
+          }
+        });
+        dispatch({
+          type: SET_CALL_DATA,
+          payload: {
+            allCalls,
+            archivedCalls,
+            unArchivedCalls,
+            archivedCallsIdData,
+            unArchivedCallsIdData,
+            isLoading: false,
+          },
+        });
+        // setCallLogs({
+        //   allCalls,
+        //   archivedCalls,
+        //   unArchivedCalls,
+        //   archivedCallsIdData,
+        //   unArchivedCallsIdData,
+        //   isLoading: false,
+        // });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        dispatch({ type: SET_CALL_DATA_FAILED });
+        // setCallLogs((prev) => ({ ...prev, isLoading: false }));
+      }
     })();
-  }, []);
+  }, [isUpdate]);
 
   return (
-    <CallLogsProvider value={callLogsState}>
+    <CallLogsProvider value={{ callLogsState: appState, setUpdate }}>
       <ThemeProvider theme={theme}>
         <Container
           disableGutters

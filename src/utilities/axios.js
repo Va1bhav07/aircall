@@ -8,7 +8,6 @@ const isStatusInRange = (status, start, end) =>
   status >= start && status <= end;
 
 const handleResponse = (response) => {
-  console.log("response :>> ", response);
   if (isStatusInRange(response.status, 200, 299)) {
     return response.data;
   } else {
