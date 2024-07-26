@@ -16,6 +16,15 @@ import Snackbar from "@mui/material/Snackbar";
 
 export const CallDetails = ({ callId, onBackBtn }) => {
   const [callDetailsState, setCallDetails] = useState({});
+  const [alertState, setAlert] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlert(false);
+  };
 
   useEffect(() => {
     (async () => {
@@ -43,11 +52,7 @@ export const CallDetails = ({ callId, onBackBtn }) => {
       is_archived: !is_archived,
     });
     if (resp === "Call had been updated.") {
-      <Snackbar
-        open={true}
-        autoHideDuration={3000}
-        message={`Number is ${!is_archived ? "archived" : "unarchived"}`}
-      />;
+      setAlert(true);
     }
   };
 
@@ -60,7 +65,6 @@ export const CallDetails = ({ callId, onBackBtn }) => {
       >
         <KeyboardBackspaceOutlinedIcon />
       </IconButton>
-
       <Stack>
         <CallerAvatar from={from} />
         <Box pt={2}>
@@ -74,6 +78,20 @@ export const CallDetails = ({ callId, onBackBtn }) => {
           />
         </Box>
       </Stack>
+      {
+        <Snackbar
+          open={alertState}
+          autoHideDuration={1500}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          className="test"
+          sx={{
+            bottom: "100px !important",
+            "& .MuiSnackbarContent-root": { minWidth: "fit-content" },
+          }}
+          message={`Number is ${!is_archived ? "archived" : "unarchived"}`}
+        />
+      }
     </Box>
   );
 };
